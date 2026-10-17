@@ -1,3 +1,4 @@
+#include "ReplayMapExport.h"
 #include "ObjWriterIW5.h"
 
 #include "Game/IW4/XAnim/XAnimDumperIW4.h"
@@ -30,6 +31,8 @@ using namespace IW5;
 
 void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
 {
+    RegisterAssetDumper(std::make_unique<iw8_export::World<IW5::AssetGfxWorld>>());
+    RegisterAssetDumper(std::make_unique<iw8_export::Collision<IW5::AssetClipMap>>());
     RegisterAssetDumper(std::make_unique<phys_preset::InfoStringDumperIW5>());
     // REGISTER_DUMPER(AssetDumperPhysCollmap)
     RegisterAssetDumper(std::make_unique<xanim::DumperIW4>());

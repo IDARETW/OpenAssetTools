@@ -1,3 +1,4 @@
+#include "ReplayMapExport.h"
 #include "ObjWriterIW4.h"
 
 #include "Game/IW4/Font/FontDumperIW4.h"
@@ -31,6 +32,9 @@ using namespace IW4;
 
 void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
 {
+    RegisterAssetDumper(std::make_unique<iw8_export::World<IW4::AssetGfxWorld>>());
+    RegisterAssetDumper(std::make_unique<iw8_export::Collision<IW4::AssetClipMapSp>>());
+    RegisterAssetDumper(std::make_unique<iw8_export::Collision<IW4::AssetClipMapMp>>());
     RegisterAssetDumper(std::make_unique<phys_preset::InfoStringDumperIW4>());
     RegisterAssetDumper(std::make_unique<phys_collmap::DumperIW4>());
     RegisterAssetDumper(std::make_unique<xanim::DumperIW4>());
