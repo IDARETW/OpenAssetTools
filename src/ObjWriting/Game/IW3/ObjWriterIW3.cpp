@@ -1,4 +1,5 @@
 #include "ObjWriterIW3.h"
+#include "ReplayMapDumpers.h"
 
 #include "Game/IW3/Font/FontDumperIW3.h"
 #include "Game/IW3/Image/ImageDumperIW3.h"
@@ -23,8 +24,10 @@ using namespace IW3;
 void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
 {
     RegisterAssetDumper(std::make_unique<phys_preset::InfoStringDumperIW3>());
-    RegisterAssetDumper(std::make_unique<xanim::DumperIW3>());
+    // Raw IW3 streams for the Replay converter (replaces the modtools-format dump).
+    RegisterAssetDumper(std::make_unique<replay_export::XAnim>());
     RegisterAssetDumper(std::make_unique<xmodel::DumperIW3>());
+    RegisterAssetDumper(std::make_unique<replay_export::Model>());
     RegisterAssetDumper(std::make_unique<material::JsonDumperIW3>());
     RegisterAssetDumper(std::make_unique<techset::DumperIW3>(
 #ifdef TECHSET_DEBUG
@@ -34,15 +37,15 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
 #endif
         ));
     RegisterAssetDumper(std::make_unique<image::DumperIW3>());
-    // REGISTER_DUMPER(AssetDumpersnd_alias_list_t)
+    RegisterAssetDumper(std::make_unique<replay_export::Sound>());
     RegisterAssetDumper(std::make_unique<sound_curve::DumperIW3>());
     RegisterAssetDumper(std::make_unique<sound::LoadedSoundDumperIW3>());
-    // REGISTER_DUMPER(AssetDumperClipMap)
-    // REGISTER_DUMPER(AssetDumperComWorld)
+    RegisterAssetDumper(std::make_unique<replay_export::Collision<IW3::AssetClipMap>>()); RegisterAssetDumper(std::make_unique<replay_export::Collision<IW3::AssetClipMapPvs>>());
+    RegisterAssetDumper(std::make_unique<replay_export::ComWorld>());
     // REGISTER_DUMPER(AssetDumperGameWorldSp)
     // REGISTER_DUMPER(AssetDumperGameWorldMp)
     RegisterAssetDumper(std::make_unique<map_ents::DumperIW3>());
-    // REGISTER_DUMPER(AssetDumperGfxWorld)
+    RegisterAssetDumper(std::make_unique<replay_export::World>());
     RegisterAssetDumper(std::make_unique<light_def::DumperIW3>());
     RegisterAssetDumper(std::make_unique<font::JsonDumperIW3>());
     RegisterAssetDumper(std::make_unique<menu::MenuListDumperIW3>());
@@ -50,8 +53,8 @@ void ObjWriter::RegisterAssetDumpers(AssetDumpingContext& context)
     RegisterAssetDumper(std::make_unique<localize::DumperIW3>());
     RegisterAssetDumper(std::make_unique<weapon::DumperIW3>());
     // REGISTER_DUMPER(AssetDumperSndDriverGlobals)
-    // REGISTER_DUMPER(AssetDumperFxEffectDef)
-    // REGISTER_DUMPER(AssetDumperFxImpactTable)
+    RegisterAssetDumper(std::make_unique<replay_export::Fx>());
+    RegisterAssetDumper(std::make_unique<replay_export::ImpactFx>());
     RegisterAssetDumper(std::make_unique<raw_file::DumperIW3>());
     RegisterAssetDumper(std::make_unique<string_table::DumperIW3>());
 }
