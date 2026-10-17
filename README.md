@@ -5,6 +5,28 @@
 [![GitHub branch check runs](https://img.shields.io/github/check-runs/laupetin/openassettools/main)](https://github.com/Laupetin/OpenAssetTools/actions)
 [![GitHub License](https://img.shields.io/github/license/laupetin/openassettools)](https://github.com/Laupetin/OpenAssetTools/blob/main/LICENSE)
 
+> **About this fork.** This is [IDARETW](https://github.com/IDARETW)'s fork of
+> [Laupetin/OpenAssetTools](https://github.com/Laupetin/OpenAssetTools), kept in step with upstream `main`.
+> It adds the map export that [IW8-zonetool](https://github.com/IDARETW/IW8-zonetool) uses to convert
+> IW3 (CoD4) multiplayer maps to IW8 (Modern Warfare 2019, Replay 1.20). Everything else is upstream OAT.
+>
+> When the Unlinker dumps an IW3 map fastfile, the fork also writes these files next to the map
+> (`maps/mp/<map>.d3dbsp.*`):
+>
+> | File | Contents |
+> |------|----------|
+> | `replay-world.json` | GfxWorld: surfaces and vertices, lightmaps, reflection probes, DPVS cells, portals and AABB trees, sky, sun, static models (placement, bounds, cull distance, lighting origin, primary light, ground lighting, model flags), primary-light regions (hulls) |
+> | `replay-collision.json` | clipMap: brushes and planes, terrain triangles with contents, submodels, dynamic entities, static-model collision |
+> | `replay-comworld.json` | ComWorld primary lights (sun, spot, omni) |
+> | `lightgrid.json` + `.bin` files | The light grid: rows, entries and the 56-direction colour palette |
+>
+> Materials also carry their water spectrum (`water`: H0, wTerm, size, amplitude, wind) in the JSON
+> material export. The fork also decodes wavelet-compressed IWI images and exports IW4/IW5 maps in the
+> same format.
+>
+> Build it as upstream OAT (`generate.bat`, then the `Release | Win32` configuration) and pass
+> `build/bin/Release_x86/Unlinker.exe` to IW8-zonetool with `--unlinker`.
+
 OpenAssetTools (OAT) is a work in progress project aiming to create a modding tools suite for older Call Of Duty titles.
 It is not a reimplementation of existing modding tools or related to them but aims to be as compatible as possible in terms of formats and add support for previously unsupported titles.
 
